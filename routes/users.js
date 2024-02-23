@@ -1,11 +1,14 @@
 const mongoose = require('mongoose');
 const plm = require("passport-local-mongoose");
 
-mongoose.connect(process.env.MONGO_URL).then(()=>{
-  console.log(
-    "DB connected"
-  );
-})
+// require('dotenv').config({ path: '/' + './.env' });
+
+
+	mongoose
+		.connect("mongodb://127.0.0.1:27017/instaUsers")
+		.then(() => console.log('Database connection successfully !'))
+		.catch(err => console.log(err.message));
+
 
 
 const userSchema = mongoose.Schema({
