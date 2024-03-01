@@ -1,17 +1,18 @@
 const mongoose = require('mongoose');
 const plm = require("passport-local-mongoose");
+const dotenv = require('dotenv');
 
-// require('dotenv').config({ path: '/' + './.env' });
+// Load environment variables from .env file
+dotenv.config();
+
+// Correct MongoDB connection string
+mongoose
+mongoose.connect(`mongodb+srv://gouravsingh97555:3CqmBIMKaZMSyPUJ@cluster0.z5nxpnf.mongodb.net/?retryWrites=true&w=majority`)
+  .then(() => console.log('Database connection successful!'))
+  .catch(err => console.error('Database connection error:', err));
 
 
-	mongoose
-		.connect("mongodb://127.0.0.1:27017/instaUsers")
-		.then(() => console.log('Database connection successfully !'))
-		.catch(err => console.log(err.message));
-
-
-
-const userSchema = mongoose.Schema({
+const userSchema = new mongoose.Schema({
   username: String,
   name: String,
   email: String,
@@ -22,35 +23,27 @@ const userSchema = mongoose.Schema({
   },
   contact: String,
   bio: String,
-  stories: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "story" 
-    }
-  ],
-  saved: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "post" 
-    }
-  ],
+  stories: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "story"
+  }],
+  saved: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "post"
+  }],
   posts: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: "post" 
+    ref: "post"
   }],
-  followers: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "user" 
-    } 
-  ],
-  following: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "user" 
-    }
-  ]
-})
+  followers: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user"
+  }],
+  following: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user"
+  }]
+});
 
 userSchema.plugin(plm);
 
